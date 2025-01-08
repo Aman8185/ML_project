@@ -10,6 +10,7 @@ from src.ML_project.expection import CustomException
 from sklearn.pipeline import Pipeline
 from sklearn.impute import SimpleImputer
 from src.ML_project.logger import logging
+from src.ML_project.utils import save_object
 
 @dataclass
 class DataTransformationConfig():
@@ -72,13 +73,34 @@ class Data_Transformation:
             
             target_col = "math_score"
             num_col = ["Writing_score", "reading_score"]
-
+        #Divide the train dataset to imdependant and depenedenet features
             input_feature_train_df = train_df.drop(columns=[target_col], axis=1)
             targert_feature_train_df = train_df[target_col]
-
+        #Divide the test dataset to imdependant and depenedenet features
             input_feature_test_df = test_df.drop(columns=[target_col], axis=1)
             targert_feature_test_df = test_df[target_col]
 
+            logging.info("Applying Preprocessing om training and test dataframe")
+
+            input_feature_train_arr = preprocessing_obj.fit_transform(input_feature_train_df)
+            input_feature_test_arr = preprocessing_obj.fit_transform(input_feature_test_df)
+
+            train_arr = np.c_[input_feature_train_arr, np.array(targert_feature_train_df)]
+
+            test_arr = np.c_[input_feature_test_arr, np.array(targert_feature_test_df)]
+
+            logging.info(f"Ssaving preprocessing object")
+
+            save_object(
+                file_path=self.data_transformationconfig.preprocessor_obj_file_path,
+                obj=preprocessing_obj
+            )
+
+            return(
+                train_arr,
+                test_arr,
+                self.data_transformationconfig.preprocessor_obj_file_path
+            )
 
 
         except Exception as e:
