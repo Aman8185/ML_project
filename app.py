@@ -15,10 +15,10 @@ if __name__ == "__main__":
 
         data_ingetion = DataIngestion()
 
-        train_path, test_path = data_ingetion.Initiate_Data_Ingestion()
+        train_data_path, test_data_path = data_ingetion.Initiate_Data_Ingestion()
 
         data_transformation = Data_Transformation()
-        data_transformation.initiate_data_transformation(train_path, test_path)
+        data_transformation.initiate_data_transformation(train_data_path, test_data_path)
 
 
 

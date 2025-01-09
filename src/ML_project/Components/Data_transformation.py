@@ -42,7 +42,7 @@ class Data_Transformation:
             cat_pipeline = Pipeline(steps=[
                 ("Imputer", SimpleImputer(strategy="most_frequent")),
                 ("OneHotEncoder", OneHotEncoder()),
-                "Scaler", StandardScaler(with_mean=False)
+                ("Scaler", StandardScaler(with_mean=False))
             ])
 
             logging.info(f"Categorical Columns: {categorical_columns}")
@@ -106,4 +106,3 @@ class Data_Transformation:
         except Exception as e:
             raise CustomException(sys, e)
                 
-        
